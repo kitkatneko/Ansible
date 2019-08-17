@@ -1,0 +1,23 @@
+---
+- name: "Getting information from Azure objects eg the ip of a nic"
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+   - name: "Using the azure_rm_networkinterface_facts and return all facts"
+     azure_rm_networkinterface_facts:
+        resource_group: qcac-networking-rg
+        name: qcac-apapp1-1-nic-01
+     register: azure_networkinterfaces
+   - name: Listing the full dict
+     debug: var=ansible_facts.azure_networkinterfaces
+
+   - name: Listing only the privateIP of nic [1]
+     debug: var=ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress}}
+
+   - name: print internal IP in a message
+     debug: msg="internal ip is {{azure_networkinterfaces.ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress}}"
+
+   - name: set value of nic
+     set_fact: 
+      vm_internal_ip: "{{azure_networkinterfaces.ansible_facts.azure_networkinterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress}}"
