@@ -6,8 +6,8 @@
   tasks:
    - name: "Using the azure_rm_networkinterface_facts and return all facts"
      azure_rm_networkinterface_facts:
-        resource_group: qcac-networking-rg
-        name: qcac-apapp1-1-nic-01
+        resource_group: networking-rg
+        name: server1-nic-01
      register: azure_networkinterfaces
    - name: Listing the full dict
      debug: var=ansible_facts.azure_networkinterfaces
